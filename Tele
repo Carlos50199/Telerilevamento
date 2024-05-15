@@ -1,0 +1,74 @@
+#First code in GitHub
+#Let's start with the intallation of Raster package
+#the comand is install.packages("raster")
+
+#now we can use the package Raster
+#the comand is library(raster)
+
+#Setting the working directory and imprting the data
+setwd("C:/lab/")
+
+l2011<- brick ("p224r63_2011_masked.grd")
+
+#raw way of plotting the data with function plot
+
+plot(l2011)
+
+cl<- colorRampPalette(c("red","orange","yellow"))(100)
+plot(2011, col=cl)
+
+#plotting just one element
+plot(2011[[4]], col=cl)
+plot(l2011$B4_sre, col=cl)
+
+#with the first method we recall the fourth element of our data
+#with the second element we recall the element using its name
+
+nir<-l2011[[4]]
+plot(nir, col=cl)
+#now the fourth element of our data has a new easier name
+
+#change the color gamut
+cl<- colorRampPalette(c("cyan","azure","darkorchid","aquamarine"))(100)
+plot(l2011, col=cl)
+
+#plotting the NIR band
+#b1=blue
+#b2=green
+#b3=red
+#b4=NIR
+
+#comand for the closing of all graphs dev.off()
+#export graphs into pdf
+pdf("l2011_NIR.pdf")
+plot(l2011[[4]], col=cl)
+dev.off()
+
+#plotting different bands in a multiframe
+par(mfrow=c(2,1))
+plot(l2011[[3]], col=cl)
+plot(l2011[[4]],col=cl)
+
+#RGB plotting
+plotRGB(l2011, r=3, g=2, b=1, stretch="lin")
+#with this order (r=3, g=2, b=1) we have a natural color
+plotRGB(l2011, r=3, g=2, b=3, stretch="lin")
+#with this order (r=3, g=2, b=3) we highlight plants-covered areas
+plotRGB(l2011, r=4, g=3, b=2, stretch="lin")
+#with this order (r=4, g=3, b=2) we highlight plants-covered areas in red
+plotRGB(l2011, r=3,g=4,b=2, stretch="lin")
+#with this order (r=3, g=4, b=2) we highlight plants-covered areas in green, fields and water in purple
+
+#multiframe plotting 
+#linear stretching and Histogram stretching
+par(mfrow=c(2,1))
+plotRGB(l2011, r=4, g=3, b=2, stretch="lin")
+plotRGB(l2011, r=4, g=3, b=2, stretch="hist")
+
+
+
+
+
+
+
+
