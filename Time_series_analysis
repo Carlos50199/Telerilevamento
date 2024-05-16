@@ -1,0 +1,45 @@
+library(raster)
+library(tasterVis)
+library(rgdal)
+setwd("C:/lab/")
+
+lst2000<- brick("lst_2000.tif")
+lst2005<- brick ("lst_2005.tif")
+lst2010<- brick ("lst_2010.tif")
+lst2015<- brick ("lst_2015.tif")
+
+rlist<- list.files(pattern="lst")
+import<- lapply (rlist, raster)
+
+def1<- brick("defor1_.png")
+def2<- brick("defor2_.png")
+# 2 classes here: n°1= Forest, n°2= Bare soil
+
+kcluster1<- kmneas (singlenr1, centers=2)
+#centers= n° of classe desired
+
+def1class<- setValues(def1[[1]], kcluster1$cluster)
+
+#classe frequencies in pixel
+freq1<-freq(def1class)
+
+to1<- ncell (def1class)
+tot2<- ncell(def2class)
+
+#calculating percentages
+perc1<- 1*100/tot1
+perc2<- 1*100/ tot2
+
+#comparing percentages with data frame
+cover<- c("Forest", "Bare soil")
+perc1_1992<- c(89.75, 10.25)
+perc2_2006<- c(52.07, 47.93)
+#1992 and 2006 are the relative years
+
+percentages<- data.frame (cover, perc1_1992, perc2_2006)
+percentages
+      cover perc1_1992 perc2_2006
+1    Forest      89.75      52.07
+
+2 Bare soil      10.25      47.93
+
